@@ -18,22 +18,22 @@ class Matrix2D:
 
     def __matmul__(self, other: Matrix2D) -> Matrix2D:
         return Matrix2D(self.vals @ other.vals)
-    
+
     @classmethod
     def from_list(cls, vals: list) -> Matrix2D:
         return cls(np.array(vals))
 
     def rotate(self, angle: float) -> Matrix2D:
         return Matrix2D(self.vals @ self._rotation_matrix(np.deg2rad(angle)))
-    
-    def flip(self, axis: Optional[int]=None) -> Matrix2D:
+
+    def flip(self, axis: Optional[int] = None) -> Matrix2D:
         if axis not in AVAILABLE_FLIP_AXIS:
             logging.error("Flip failed check axis value asshole")
             return self
 
         flip_ = np.eye(self.vals.shape[-1])
         if axis is not None:
-            flip_[axis-1, axis-1] = -1
+            flip_[axis - 1, axis - 1] = -1
         else:
             flip_ *= -1
 
@@ -41,7 +41,7 @@ class Matrix2D:
 
     def scale(self, scaler: float) -> Matrix2D:
         return Matrix2D(scaler * self.vals)
-    
+
     def inv(self) -> Matrix2D:
         try:
             _inv = np.linalg.inv(self.vals)
